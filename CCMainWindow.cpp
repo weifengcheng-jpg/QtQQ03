@@ -1,8 +1,10 @@
 #include "CCMainWindow.h"
 #include "SkinWindow.h"
+#include "SysTray.h"
 
 #include <QProxyStyle>
 #include <QPainter>
+#include <QTimer>
 
 
 class CustomProxyStyle :public QProxyStyle
@@ -29,10 +31,29 @@ CCMainWindow::CCMainWindow(QWidget *parent)
 	setWindowFlags(windowFlags() | Qt::Tool);
 	loadStyleSheet("CCMainWindow");
 	initControl();
+	initTimer();
 }
 
 CCMainWindow::~CCMainWindow()
 {
+}
+
+void CCMainWindow::initTimer()
+{
+	QTimer *timer = new QTimer(this);
+	timer->setInterval(500);
+
+	connect(timer, &QTimer::timeout,[this]{
+		static int level = 0;
+		if (level == 99)
+		{
+			level = 0;
+		}
+		level++;
+		setLevelPixmap(level);
+	});
+
+	timer->start();
 }
 
 void CCMainWindow::initControl()
@@ -61,10 +82,22 @@ void CCMainWindow::initControl()
 	ui.bottomLayout_up->addWidget(addOtherAppExtension(":/Resources/MainWindow/app/app_11.png", "app_11"));
 	ui.bottomLayout_up->addWidget(addOtherAppExtension(":/Resources/MainWindow/app/app_9.png", "app_9"));
 	ui.bottomLayout_up->addStretch();
+
+	connect(ui.sysmin, SIGNAL(clicked(bool)), this, SLOT(onShowHide(bool)));
+	connect(ui.sysclose, SIGNAL(clicked(bool)), this, SLOT(onShowClose(bool)));
+
+	SysTray* systray = new SysTray(this);
 }
 
 void CCMainWindow::setUserName(const QString & username)
 {
+	ui.nameLabel->adjustSize();
+
+	//文本过长则进行省略...
+	//fontMetrics()返回QFontMetrics类对象
+ 	QString name =  ui.nameLabel->fontMetrics().elidedText(username, Qt::ElideRight, ui.nameLabel->width());
+
+	ui.nameLabel->setText(name);
 }
 
 void CCMainWindow::setLevelPixmap(int level)
@@ -127,6 +160,12 @@ QWidget * CCMainWindow::addOtherAppExtension(const QString & appPath, const QStr
 
 	connect(btn, &QPushButton::clicked, this, &CCMainWindow::onAppIconClicked);
 	return btn;
+}
+
+void CCMainWindow::resizeEvent(QResizeEvent * event)
+{
+	setUserName(QString::fromLocal8Bit("奇牛科技-越分享越拥有"));
+	BasicWindow::resizeEvent(event);
 }
 
 void CCMainWindow::onAppIconClicked()
