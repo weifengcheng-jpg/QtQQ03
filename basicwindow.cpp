@@ -1,4 +1,6 @@
 #include "basicwindow.h"
+#include "CommonUtils.h"
+#include "NotifyManager.h"
 
 #include <QDesktopWidget>
 #include <QFile>
@@ -10,8 +12,11 @@
 BasicWindow::BasicWindow(QWidget *parent)
 	: QDialog(parent)
 {
+	m_colorBackGround = CommonUtils::getDefaultSkinColor();
 	setWindowFlags(Qt::FramelessWindowHint);
 	setAttribute(Qt::WA_TranslucentBackground, true);
+	connect(NotifyManager::getInstance(), SIGNAL(signalSkinChanged(const QColor&)), this, SLOT(onSignalSkinChanged(const QColor&)));
+
 }
 
 BasicWindow::~BasicWindow()
@@ -100,7 +105,7 @@ QPixmap BasicWindow::getRoundImage(const QPixmap &src, QPixmap &mask, QSize mask
 	}
 	else 
 	{
-		mask.scaled(maskSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+		mask = mask.scaled(maskSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 	}
 
 	//保存转换后的图像
@@ -111,7 +116,7 @@ QPixmap BasicWindow::getRoundImage(const QPixmap &src, QPixmap &mask, QSize mask
 	painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
 	painter.drawPixmap(0, 0, mask);
 	painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
-	painter.drawPixmap(0, 0, src.scaled(Qt::KeepAspectRatio, Qt::SmoothTransformation));
+	painter.drawPixmap(0, 0, src.scaled(maskSize,Qt::KeepAspectRatio, Qt::SmoothTransformation));
 	painter.end();
 
 	return QPixmap::fromImage(resultImage);
