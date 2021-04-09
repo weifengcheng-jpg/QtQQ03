@@ -153,6 +153,7 @@ void BasicWindow::mouseMoveEvent(QMouseEvent *e)
 {
 	if (m_mousePressed && (e->buttons() && Qt::LeftButton))
 	{
+		//e->globalPos() 事件发生时全局坐标，相对于屏幕左上角(0,0)
 		move(e->globalPos() - m_mousePoint);
 		e->accept();
 	}
@@ -163,6 +164,7 @@ void BasicWindow::mousePressEvent(QMouseEvent *e)
 {
 	if (e->button() == Qt::LeftButton)
 	{
+		//pos() 事件发生时相对于窗口左上角(0,0)的偏移
 		m_mousePressed = true;
 		m_mousePoint = e->globalPos() - pos();
 		accept();
