@@ -34,12 +34,18 @@
     <ClCompile Include="titlebar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="basicwindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="CCMainWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="titlebar.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="basicwindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

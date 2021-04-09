@@ -75,7 +75,7 @@ void TitleBar::initConnections()
 }
 
 //设置标题栏图标
-void TitleBar::setTitleIcon(QString &filePath)
+void TitleBar::setTitleIcon(const QString &filePath)
 {
 	QPixmap titleIcon(filePath);
 	m_pIcon->setFixedSize(titleIcon.size());
@@ -83,7 +83,7 @@ void TitleBar::setTitleIcon(QString &filePath)
 }
 
 //设置标题栏内容
-void TitleBar::setTitleContent(QString &titleContent)
+void TitleBar::setTitleContent(const QString &titleContent)
 {
 	m_pTitleContent->setText(titleContent);
 	m_titleContent = titleContent;
