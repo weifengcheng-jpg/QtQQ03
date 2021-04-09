@@ -61,6 +61,7 @@ private:
 	QLabel *m_pTitleContent;		//标题栏内容
 	QPushButton *m_pButtonMin;		//最小化按钮
 	QPushButton *m_pButtonRestore;	//最大化还原按钮
+	QPushButton *m_pButtonMax;		//最大化按钮
 	QPushButton *m_pButtonClose;	//关闭按钮
 
 	//最大化还原按钮变量（用于保存窗体位置及大小）
