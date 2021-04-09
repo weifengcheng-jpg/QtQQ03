@@ -12,8 +12,6 @@ public:
 	~CCMainWindow();
 
 public:
-	void initTimer();	//初始化计时器
-	void initControl();
 	void setUserName(const QString& username);	//设置用户名
 	void setLevelPixmap(int level);				//设置顶级
 	void setHeadPixmap(const QString& headPath);//设置头像
@@ -22,7 +20,13 @@ public:
 	QWidget* addOtherAppExtension(const QString& appPath, const QString& appName);
 
 private:
+	void initTimer();	//初始化计时器
+	void initControl();
+	void updateSeachStyle(); //更新搜索样式
+
+private:
 	void resizeEvent(QResizeEvent* event);
+	bool eventFilter(QObject* obj, QEvent* event);
 private slots:
 
 	void onAppIconClicked();
