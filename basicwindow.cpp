@@ -167,7 +167,7 @@ void BasicWindow::mousePressEvent(QMouseEvent *e)
 		//pos() 事件发生时相对于窗口左上角(0,0)的偏移
 		m_mousePressed = true;
 		m_mousePoint = e->globalPos() - pos();
-		accept();
+		e->accept();
 	}
 }
 
